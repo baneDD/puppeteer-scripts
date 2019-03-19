@@ -1,11 +1,6 @@
 const puppeteer = require("puppeteer");
 const { urls, cron } = require("./config");
-const { createLogger, format, transports } = require("winston");
-
-const logger = createLogger({
-  format: format.simple(),
-  transports: [new transports.Console()]
-});
+const logger = require("./utils/logger");
 
 const stats = (url, type, files) =>
   new Object({

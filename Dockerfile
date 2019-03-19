@@ -12,7 +12,7 @@ RUN apt-get update && \
     apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 RUN yarn global add puppeteer@1.8.0 && yarn cache clean
-RUN yarn global add winston
+RUN yarn global add winston && yarn global add influx
 
 ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules:${NODE_PATH}"
 
