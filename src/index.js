@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const config = require("./config");
+const { urls, cron } = require("./config");
 const { createLogger, format, transports } = require("winston");
 
 const logger = createLogger({
@@ -24,11 +24,6 @@ const processForSize = (files, dataReceived) => {
 };
 
 const getStatsForUrl = async url => {
-  if (!config || config.length == 0) {
-    logger.error("Please provide URLs to use via a config file");
-    process.exit(1);
-  }
-
   const images = [];
   const bundle = [];
   const dataReceived = [];
@@ -68,9 +63,9 @@ const getStatsForUrl = async url => {
   await browser.close();
 };
 
-if (!config || config.length == 0) {
+if (!urls || urls.length == 0 || !urls[0].url) {
   logger.error("No URLs supplied to process! Exiting...");
   process.exit(1);
 }
 
-config.map(getStatsForUrl);
+urls.map(item => item.url && getStatsForUrl(item.url));
