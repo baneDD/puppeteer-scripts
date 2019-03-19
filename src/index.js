@@ -1,10 +1,28 @@
 const puppeteer = require("puppeteer");
 const { urls, cron } = require("./config");
 const logger = require("./utils/logger");
+const { init, saveData } = require("./influx");
+const { CronJob } = require("cron");
+
+const main = () => {
+  if (!urls || urls.length == 0 || !urls[0].url) {
+    logger.error("No URLs supplied to process! Exiting...");
+    process.exit(1);
+  }
+
+  await init();
+
+  try {
+    if (cron) {
+      return new CronJob(cron, async () => urls.map(item => item.url && getStatsForUrl(item.url)), null, true, "America/Toronto", null, true);
+    }
+  } catch (err) {
+    logger.error(err);
+  }
+};
 
 const stats = (url, type, files) =>
   new Object({
-    url: url,
     type: type,
     numberRequested: files.length,
     numberNotFound: files.filter(file => file.status === 404).length,
@@ -52,15 +70,11 @@ const getStatsForUrl = async url => {
   await page.setCacheEnabled(false);
   await getPageAndProcessDataReceived(page, url, dataReceived, images, bundle);
 
-  logger.info(JSON.stringify(stats(url, "images", images), null, 2));
-  logger.info(JSON.stringify(stats(url, "bundle", bundle), null, 2));
+  await saveData(url, stats("images", images));
+  await saveData(url, stats("bundle", bundle));
 
   await browser.close();
 };
 
-if (!urls || urls.length == 0 || !urls[0].url) {
-  logger.error("No URLs supplied to process! Exiting...");
-  process.exit(1);
-}
 
-urls.map(item => item.url && getStatsForUrl(item.url));
+
