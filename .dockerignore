@@ -1,0 +1,9 @@
+# Prettier config file
+.prettierrc.js
+
+# Git files and folders
+.gitignore
+.git
+
+# Node modules
+node_modules
