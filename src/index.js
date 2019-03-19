@@ -30,8 +30,8 @@ const processForSize = (files, dataReceived) => {
 
   const url = args[2];
   const images = [];
-  const dataReceived = [];
   const bundle = [];
+  const dataReceived = [];
 
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
