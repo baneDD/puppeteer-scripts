@@ -4,7 +4,7 @@ const logger = require("./utils/logger");
 const { init, saveData } = require("./influx");
 const { CronJob } = require("cron");
 
-const main = () => {
+const main = async () => {
   if (!urls || urls.length == 0 || !urls[0].url) {
     logger.error("No URLs supplied to process! Exiting...");
     process.exit(1);
@@ -21,7 +21,7 @@ const main = () => {
   }
 };
 
-const stats = (url, type, files) =>
+const stats = (type, files) =>
   new Object({
     type: type,
     numberRequested: files.length,
@@ -76,5 +76,4 @@ const getStatsForUrl = async url => {
   await browser.close();
 };
 
-
-
+main();
