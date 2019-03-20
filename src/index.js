@@ -21,13 +21,14 @@ const main = async () => {
   }
 };
 
-const stats = (type, files) =>
-  new Object({
-    type: type,
-    numberRequested: files.length,
-    numberNotFound: files.filter(file => file.status === 404).length,
-    totalSize: files.reduce((acc, cur) => acc + cur.size, 0) // Size in bytes
-  });
+const stats = (type, files) => {
+  const temp = {};
+  temp[`${type}-numberRequested`] = files.length;
+  temp[`${type}-numberNotFound`] = files.filter(file => file.status === 404).length;
+  temp[`${type}-totalSize`] = files.reduce((acc, cur) => acc + cur.size, 0); // Size in bytes
+
+  return temp;
+};
 
 const processForSize = (files, dataReceived) => {
   for (let i = 0; i < files.length; i++) {
