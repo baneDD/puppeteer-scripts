@@ -7,11 +7,11 @@ const logger = require("../utils/logger");
 const init = async () => {
   try {
     const names = await influx.getDatabaseNames();
-    if (names.indexOf("pupeteer") === -1) {
-      logger.info("InfluxDB: pupeteer database does not exist. Creating database");
-      return influx.createDatabase("pupeteer");
+    if (names.indexOf("puppeteer") === -1) {
+      logger.info("InfluxDB: puppeteer database does not exist. Creating database");
+      return influx.createDatabase("puppeteer");
     }
-    logger.info("InfluxDB", "pupeteer database already exists. Skipping creation.");
+    logger.info("InfluxDB", "puppeteer database already exists. Skipping creation.");
     return Promise.resolve();
   } catch (err) {
     console.log(err);
@@ -38,10 +38,10 @@ const saveData = async (url, data) => {
     }, []);
 
     const result = await influx.writePoints(points);
-    logger.info(`Successfully saved pupeteer data for ${url}`);
+    logger.info(`Successfully saved puppeteer data for ${url}`);
     return result;
   } catch (err) {
-    logger.error(`Failed to save pupeteer data for ${url}`, err);
+    logger.error(`Failed to save puppeteer data for ${url}`, err);
     return Promise.reject(`Failed to save data into influxdb for ${url}`);
   }
 };

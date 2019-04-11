@@ -21,6 +21,8 @@ const main = async () => {
   }
 };
 
+const filterOnPlugin = urls => urls.filter(url => url.plugins && url.plugins.name === "puppeteer-scripts");
+
 const stats = (type, files) => {
   const temp = {};
   temp[`${type}-numberRequested`] = files.length;
@@ -78,3 +80,5 @@ const getStatsForUrl = async url => {
 };
 
 main();
+
+module.exports = { main };

@@ -1,7 +1,7 @@
 {
-  "name": "pupeteer-scripts",
+  "name": "puppeteer-scripts",
   "version": "1.0.0",
-  "description": "Pupeteer scripts to get image and bundle metrics for websites",
+  "description": "puppeteer scripts to get image and bundle metrics for websites",
   "main": "index.js",
   "scripts": {
     "test": "ENV=test jest --coverage --config jest.config.json",
@@ -10,15 +10,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baneDD/pupeteer-scripts.git"
+    "url": "git+https://github.com/baneDD/puppeteer-scripts.git"
   },
   "author": "Bane Debeljevic",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/baneDD/pupeteer-scripts/issues"
+    "url": "https://github.com/baneDD/puppeteer-scripts/issues"
   },
-  "homepage": "https://github.com/baneDD/pupeteer-scripts#readme",
-  "dependencies": {},
+  "homepage": "https://github.com/baneDD/puppeteer-scripts#readme",
+  "dependencies": {
+    "cron": "^1.7.0",
+    "influx": "^5.0.7",
+    "puppeteer": "^1.14.0",
+    "winston": "^3.2.1"
+  },
   "devDependencies": {
     "codecov": "^3.3.0",
     "jest": "^24.7.1"
