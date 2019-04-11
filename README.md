@@ -1,6 +1,6 @@
 # Pupeteer Scripts
 
-[![Build Status](https://travis-ci.org/baneDD/pupeteer-scripts.svg?branch=master)](https://travis-ci.org/baneDD/pupeteer-scripts)
+[![Build Status](https://travis-ci.org/baneDD/pupeteer-scripts.svg?branch=master)](https://travis-ci.org/baneDD/pupeteer-scripts) [![codecov](https://codecov.io/gh/baneDD/pupeteer-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/baneDD/pupeteer-scripts)
 
 These scripts provide useful data about the URLs provided in the config:
 
