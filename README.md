@@ -1,5 +1,7 @@
 # Pupeteer Scripts
 
+[![Build Status](https://travis-ci.org/baneDD/pupeteer-scripts.svg?branch=master)](https://travis-ci.org/baneDD/pupeteer-scripts)
+
 These scripts provide useful data about the URLs provided in the config:
 
 - Number of images on the page
