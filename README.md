@@ -1,6 +1,6 @@
 # Pupeteer Scripts
 
-[![Build Status](https://travis-ci.org/baneDD/pupeteer-scripts.svg?branch=master)](https://travis-ci.org/baneDD/pupeteer-scripts) [![codecov](https://codecov.io/gh/baneDD/pupeteer-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/baneDD/pupeteer-scripts) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/baneDD/pupeteer-scripts.svg?branch=master)](https://travis-ci.org/baneDD/pupeteer-scripts) [![codecov](https://codecov.io/gh/baneDD/pupeteer-scripts/branch/master/graph/badge.svg)](https://codecov.io/gh/baneDD/pupeteer-scripts) [![Plugin Built For: Garie](https://img.shields.io/badge/plugin%20built%20for-garie-blue.svg)](https://github.com/boyney123/garie) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 These scripts provide useful data about the URLs provided in the config:
 
