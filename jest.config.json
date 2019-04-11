@@ -1,0 +1,6 @@
+{
+  "bail": true,
+  "verbose": true,
+  "watchPathIgnorePatterns": [],
+  "coveragePathIgnorePatterns": ["/node_modules/"]
+}
