@@ -81,4 +81,9 @@ const getStatsForUrl = async url => {
 
 main();
 
-module.exports = { main };
+// We only want to export private functions for testing only
+if (process.env.ENV === "test") {
+  module.exports = { main, filterOnPlugin };
+} else {
+  module.exports = { main };
+}

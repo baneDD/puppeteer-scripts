@@ -1,5 +1,5 @@
 const cron = require("cron");
-const { main } = require("./");
+const { main, filterOnPlugin } = require("./");
 const influx = require("./influx");
 const config = require("./config");
 
@@ -15,7 +15,23 @@ jest.mock("./config", () => {
     cron: "*/2 * * * *",
     urls: [
       {
-        url: "https://www.test.com",
+        url: "https://www.one.com",
+        plugins: [
+          {
+            name: "puppeteer-scripts"
+          }
+        ]
+      },
+      {
+        url: "https://www.two.com",
+        plugins: [
+          {
+            name: "lighthouse"
+          }
+        ]
+      },
+      {
+        url: "https://www.three.com",
         plugins: [
           {
             name: "puppeteer-scripts"
@@ -57,5 +73,10 @@ describe("main", () => {
     expect(startCronOnLoad).toEqual(true);
   });
 
+  it("only gets URLs where the 'puppeteer-scripts' plugin is specified", () => {
+    const urls = filterOnPlugin(config.urls);
+
+    urls.map(item => expect(item.plugins.find(plugin => plugin.name === "puppeteer-scripts")));
+  });
   // TODO: Add tests to test the puppeteer functionality
 });
