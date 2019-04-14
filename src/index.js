@@ -14,7 +14,7 @@ const main = async () => {
 
   try {
     if (cron) {
-      return new CronJob(cron, async () => urls.map(item => item.url && getStatsForUrl(item.url)), null, true, "America/Toronto", null, true);
+      return new CronJob(cron, async () => filterOnPlugin(urls).map(item => item.url && getStatsForUrl(item)), null, true, "America/Toronto", null, true);
     }
   } catch (err) {
     logger.error(err);
@@ -39,7 +39,8 @@ const processForSize = (files, dataReceived) => {
   }
 };
 
-const getStatsForUrl = async url => {
+const getStatsForUrl = async item => {
+  const { url, config } = item;
   const images = [];
   const bundle = [];
   const dataReceived = [];
@@ -49,6 +50,12 @@ const getStatsForUrl = async url => {
   });
 
   const page = await browser.newPage();
+  if (config.userAgent) {
+    page.setUserAgent(userAgent);
+  }
+  if (config.viewport) {
+    page.setViewport(viewport);
+  }
 
   const getPageAndProcessDataReceived = async (page, url, dataReceived, ...collections) => {
     await page.goto(url, { timeout: 0, waitUntil: "networkidle0" });
