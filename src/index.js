@@ -11,10 +11,7 @@ const main = async () => {
   }
 
   if (process.env.ENV === "dev") {
-    var urlsToProcess = filterOnPlugin(urls);
-    logger.debug(`Processing ${urlsToProcess.length} items...\n`);
-    urlsToProcess.map(item => item.url && getStatsForUrl(item));
-    return;
+    return runProcessForDev(urls);
   }
 
   await init();
@@ -106,6 +103,12 @@ const getStatsForUrl = async item => {
   }
 
   await browser.close();
+};
+
+const runProcessForDev = urls => {
+  var urlsToProcess = filterOnPlugin(urls);
+  logger.debug(`Processing ${urlsToProcess.length} items...\n`);
+  urlsToProcess.map(item => item.url && getStatsForUrl(item));
 };
 
 main();
