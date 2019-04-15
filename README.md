@@ -13,4 +13,18 @@ These scripts provide useful data about the URLs provided in the config:
 - Overall size of the markup, CSS, JS and Font files
 - Number of markup, CSS, JS and Font files resulting in 404s
 
+### Config Options
+
+To enable the puppeteer-scripts plugin to run, a plugins object is required for the url object. The plugin object should have `name` property set to `puppeteer-scripts`. Custom configuration can also be passed in to control the puppeteer page options:
+  - __userAgent__ <string> Specific user agent to use in this page
+  - __viewport__ <Object>
+      - `width` <number> page width in pixels. __required__
+      - `height` <number> page height in pixels. __required__
+      - `deviceScaleFactor` <number> Specify device scale factor (can be thought of as dpr). Defaults to `1`.
+      - `isMobile` <boolean> Whether the `meta viewport` tag is taken into account. Defaults to `false`.
+      - `hasTouch` <boolean> Specifies if viewport supports touch events. Defaults to `false`.
+      - `isLandscape` <boolean> Specifies if viewport is in landscape mode. Defaults to `false`.
+
+### Execution
+
 To execute, simply run `docker run --shm-size 1G puppeteer-scripts`

@@ -10,6 +10,13 @@ const main = async () => {
     process.exit(1);
   }
 
+  if (process.env.ENV === "dev") {
+    var urlsToProcess = filterOnPlugin(urls);
+    logger.debug(`Processing ${urlsToProcess.length} items...\n`);
+    urlsToProcess.map(item => item.url && getStatsForUrl(item));
+    return;
+  }
+
   await init();
 
   try {
@@ -21,9 +28,9 @@ const main = async () => {
   }
 };
 
-const filterOnPlugin = urls => urls.filter(url => url.plugins && url.plugins.name === "puppeteer-scripts");
+const filterOnPlugin = urls => urls.filter(url => url.plugins && url.plugins.find(plugin => plugin.name === "puppeteer-scripts"));
 
-const stats = (type, files) => {
+const getStatsByType = (type, files) => {
   const temp = {};
   temp[`${type}-numberRequested`] = files.length;
   temp[`${type}-numberNotFound`] = files.filter(file => file.status === 404).length;
@@ -40,7 +47,8 @@ const processForSize = (files, dataReceived) => {
 };
 
 const getStatsForUrl = async item => {
-  const { url, config } = item;
+  const { url, plugins } = item;
+  const { userAgent, viewport } = plugins.find(plugin => plugin.name === "puppeteer-scripts").config;
   const images = [];
   const bundle = [];
   const dataReceived = [];
@@ -50,11 +58,13 @@ const getStatsForUrl = async item => {
   });
 
   const page = await browser.newPage();
-  if (config.userAgent) {
-    page.setUserAgent(userAgent);
+
+  if (userAgent) {
+    await page.setUserAgent(userAgent);
   }
-  if (config.viewport) {
-    page.setViewport(viewport);
+
+  if (viewport && viewport.width && viewport.height) {
+    await page.setViewport(viewport);
   }
 
   const getPageAndProcessDataReceived = async (page, url, dataReceived, ...collections) => {
@@ -80,8 +90,20 @@ const getStatsForUrl = async item => {
   await page.setCacheEnabled(false);
   await getPageAndProcessDataReceived(page, url, dataReceived, images, bundle);
 
-  await saveData(url, stats("images", images));
-  await saveData(url, stats("bundle", bundle));
+  const stats = {
+    images: getStatsByType("images", images),
+    bundle: getStatsByType("bundle", bundle)
+  };
+
+  if (process.env.ENV === "dev") {
+    logger.debug(`URL: ${url}`);
+    logger.debug(`User Agent: ${userAgent}`);
+    logger.debug(`Image Stats: ${JSON.stringify(stats.images)}`);
+    logger.debug(`Bundle Stats: ${JSON.stringify(stats.bundle)}\n`);
+  } else {
+    await saveData(url, stats.images);
+    await saveData(url, stats.bundle);
+  }
 
   await browser.close();
 };
