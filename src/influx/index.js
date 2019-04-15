@@ -24,13 +24,15 @@ const init = async () => {
  * @param {String} url - Url from the peroformance data to save
  * @param {*} data - Data to save
  */
-const saveData = async (url, data) => {
+const saveData = async (url, data, label) => {
+  const tag = label ? `${url}~${label}` : url;
+
   try {
     const points = Object.keys(data).reduce((points, key) => {
       if (data[key]) {
         points.push({
           measurement: key,
-          tags: { url },
+          tags: { url: tag },
           fields: { value: data[key] }
         });
       }
@@ -38,11 +40,11 @@ const saveData = async (url, data) => {
     }, []);
 
     const result = await influx.writePoints(points);
-    logger.info(`Successfully saved puppeteer data for ${url}`);
+    logger.info(`Successfully saved puppeteer data for ${tag}`);
     return result;
   } catch (err) {
-    logger.error(`Failed to save puppeteer data for ${url}`, err);
-    return Promise.reject(`Failed to save data into influxdb for ${url}`);
+    logger.error(`Failed to save puppeteer data for ${tag}`, err);
+    return Promise.reject(`Failed to save data into influxdb for ${tag}`);
   }
 };
 

@@ -44,7 +44,7 @@ const processForSize = (files, dataReceived) => {
 };
 
 const getStatsForUrl = async item => {
-  const { url, plugins } = item;
+  const { url, plugins, label } = item;
   const { userAgent, viewport } = plugins.find(plugin => plugin.name === "puppeteer-scripts").config;
   const images = [];
   const bundle = [];
@@ -93,13 +93,15 @@ const getStatsForUrl = async item => {
   };
 
   if (process.env.ENV === "dev") {
-    logger.debug(`URL: ${url}`);
+    const tag = label ? `${url}~${label}` : url;
+
+    logger.debug(`Data For: ${tag}`);
     logger.debug(`User Agent: ${userAgent}`);
     logger.debug(`Image Stats: ${JSON.stringify(stats.images)}`);
     logger.debug(`Bundle Stats: ${JSON.stringify(stats.bundle)}\n`);
   } else {
-    await saveData(url, stats.images);
-    await saveData(url, stats.bundle);
+    await saveData(url, stats.images, label);
+    await saveData(url, stats.bundle, label);
   }
 
   await browser.close();

@@ -6,6 +6,7 @@
     },
     {
       "url": "https://www.cbc.ca/",
+      "label": "mobile",
       "plugins": [
         {
           "name": "puppeteer-scripts",
@@ -23,6 +24,7 @@
     },
     {
       "url": "https://www.cbc.ca/",
+      "label": "desktop",
       "plugins": [
         {
           "name": "puppeteer-scripts",
