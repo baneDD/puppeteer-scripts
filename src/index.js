@@ -19,6 +19,8 @@ const main = async () => {
   try {
     if (cron) {
       return new CronJob(cron, async () => filterOnPlugin(urls).map(item => item.url && getStatsForUrl(item)), null, true, "America/Toronto", null, true);
+    } else {
+      logger.error("Cron config not found. Exiting...");
     }
   } catch (err) {
     logger.error(err);
@@ -45,7 +47,7 @@ const processForSize = (files, dataReceived) => {
 
 const getStatsForUrl = async item => {
   const { url, plugins, label } = item;
-  const { userAgent, viewport } = plugins.find(plugin => plugin.name === "puppeteer-scripts").config;
+  const { userAgent, viewport, wait } = plugins.find(plugin => plugin.name === "puppeteer-scripts").config;
   const images = [];
   const bundle = [];
   const dataReceived = [];
@@ -79,6 +81,7 @@ const getStatsForUrl = async item => {
   await page
     .setCacheEnabled(false)
     .then(() => page.goto(url, { timeout: 0, waitUntil: "networkidle0" }))
+    .then(() => wait && page.waitFor(wait))
     .then(() => [images, bundle].forEach(collection => processForSize(collection, dataReceived)))
     .catch(err => logger.error(`Unable to load ${url}\n${err}`));
 
