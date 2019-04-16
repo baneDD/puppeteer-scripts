@@ -17,6 +17,7 @@ These scripts provide useful data about the URLs provided in the config:
 
 To enable the puppeteer-scripts plugin to run, a plugins object is required for the url object. The plugin object should have `name` property set to `puppeteer-scripts`. Custom configuration can also be passed in to control the puppeteer page options:
   - __userAgent__ <string> Specific user agent to use in this page
+  - __wait__ <string> Wait-on string to use for puppeteer `page.waitOn`
   - __viewport__ <Object>
       - `width` <number> page width in pixels. __required__
       - `height` <number> page height in pixels. __required__
