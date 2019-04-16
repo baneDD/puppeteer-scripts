@@ -56,21 +56,6 @@ const getStatsForUrl = async item => {
 
   const page = await browser.newPage();
 
-  if (userAgent) {
-    await page.setUserAgent(userAgent);
-  }
-
-  if (viewport && viewport.width && viewport.height) {
-    await page.setViewport(viewport);
-  }
-
-  const getPageAndProcessDataReceived = async (page, url, dataReceived, ...collections) => {
-    await page.goto(url, { timeout: 0, waitUntil: "networkidle0" });
-    collections.forEach(collection => processForSize(collection, dataReceived));
-  };
-
-  page.on("request", request => request.continue());
-
   page._client.on("Network.dataReceived", event => dataReceived.push(event));
 
   page._client.on("Network.responseReceived", event => {
@@ -83,9 +68,19 @@ const getStatsForUrl = async item => {
     }
   });
 
-  await page.setRequestInterception(true);
-  await page.setCacheEnabled(false);
-  await getPageAndProcessDataReceived(page, url, dataReceived, images, bundle);
+  if (userAgent) {
+    await page.setUserAgent(userAgent);
+  }
+
+  if (viewport && viewport.width && viewport.height) {
+    await page.setViewport(viewport);
+  }
+
+  await page
+    .setCacheEnabled(false)
+    .then(() => page.goto(url, { timeout: 0, waitUntil: "networkidle0" }))
+    .then(() => [images, bundle].forEach(collection => processForSize(collection, dataReceived)))
+    .catch(err => logger.error(`Unable to load ${url}\n${err}`));
 
   const stats = {
     images: getStatsByType("images", images),
