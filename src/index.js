@@ -98,8 +98,8 @@ const getStatsForUrl = async item => {
     logger.debug(`Image Stats: ${JSON.stringify(stats.images)}`);
     logger.debug(`Bundle Stats: ${JSON.stringify(stats.bundle)}\n`);
   } else {
-    await saveData(url, stats.images, label);
-    await saveData(url, stats.bundle, label);
+    await saveData(url, stats.images, label, userAgent);
+    await saveData(url, stats.bundle, label, userAgent);
   }
 
   await browser.close();

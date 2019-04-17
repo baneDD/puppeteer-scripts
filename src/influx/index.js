@@ -24,7 +24,7 @@ const init = async () => {
  * @param {String} url - Url from the peroformance data to save
  * @param {*} data - Data to save
  */
-const saveData = async (url, data, label) => {
+const saveData = async (url, data, label, useragent) => {
   const tag = label ? `${url}~${label}` : url;
 
   try {
@@ -32,7 +32,7 @@ const saveData = async (url, data, label) => {
       if (data[key]) {
         points.push({
           measurement: key,
-          tags: { url: tag },
+          tags: { url, label, useragent },
           fields: { value: data[key] }
         });
       }
