@@ -41,7 +41,7 @@ const saveData = async (url, data, label, useragent) => {
     logger.info(`Successfully saved puppeteer data for ${url}`);
     return result;
   } catch (err) {
-    logger.error(`Failed to save puppeteer data for ${url}`, err);
+    logger.error(`Failed to save puppeteer data for ${url}\n`, err);
     return Promise.reject(`Failed to save data into influxdb for ${url}`);
   }
 };
