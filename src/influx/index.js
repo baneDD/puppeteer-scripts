@@ -25,8 +25,6 @@ const init = async () => {
  * @param {*} data - Data to save
  */
 const saveData = async (url, data, label, useragent) => {
-  const tag = label ? `${url}~${label}` : url;
-
   try {
     const points = Object.keys(data).reduce((points, key) => {
       if (data[key]) {
