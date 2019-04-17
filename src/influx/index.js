@@ -38,11 +38,11 @@ const saveData = async (url, data, label, useragent) => {
     }, []);
 
     const result = await influx.writePoints(points);
-    logger.info(`Successfully saved puppeteer data for ${tag}`);
+    logger.info(`Successfully saved puppeteer data for ${url}`);
     return result;
   } catch (err) {
-    logger.error(`Failed to save puppeteer data for ${tag}`, err);
-    return Promise.reject(`Failed to save data into influxdb for ${tag}`);
+    logger.error(`Failed to save puppeteer data for ${url}`, err);
+    return Promise.reject(`Failed to save data into influxdb for ${url}`);
   }
 };
 
