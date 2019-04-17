@@ -47,7 +47,7 @@ const processForSize = (files, dataReceived) => {
 
 const getStatsForUrl = async item => {
   const { url, plugins, label } = item;
-  const { userAgent, viewport, wait } = plugins.find(plugin => plugin.name === "puppeteer-scripts").config;
+  const { userAgent, viewport, pageWaitOn, pageGotoOptions } = plugins.find(plugin => plugin.name === "puppeteer-scripts").config;
   const images = [];
   const bundle = [];
   const dataReceived = [];
@@ -80,8 +80,8 @@ const getStatsForUrl = async item => {
 
   await page
     .setCacheEnabled(false)
-    .then(() => page.goto(url, { timeout: 0, waitUntil: "networkidle0" }))
-    .then(() => wait && page.waitFor(wait))
+    .then(() => page.goto(url, pageGotoOptions))
+    .then(() => pageWaitOn && page.waitFor(pageWaitOn))
     .then(() => [images, bundle].forEach(collection => processForSize(collection, dataReceived)))
     .catch(err => logger.error(`Unable to load ${url}\n${err}`));
 

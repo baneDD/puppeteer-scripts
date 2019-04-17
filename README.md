@@ -17,7 +17,8 @@ These scripts provide useful data about the URLs provided in the config:
 
 To enable the puppeteer-scripts plugin to run, a plugins object is required for the url object. The plugin object should have `name` property set to `puppeteer-scripts`. Custom configuration can also be passed in to control the puppeteer page options:
   - __userAgent__ <string> Specific user agent to use in this page
-  - __wait__ <string> Wait-on string to use for puppeteer `page.waitOn`
+  - __pageWaitOn__ <string> Wait-on string to use for puppeteer `page.waitOn`
+  - __pageGotoOptions__ <string> JSON string of options to use with puppeteer `page.goto`
   - __viewport__ <Object>
       - `width` <number> page width in pixels. __required__
       - `height` <number> page height in pixels. __required__
@@ -29,3 +30,7 @@ To enable the puppeteer-scripts plugin to run, a plugins object is required for 
 ### Execution
 
 To execute, simply run `docker run --shm-size 1G puppeteer-scripts`
+
+
+            "pageWaitOn": ".live-item:nth-of-type(10)",
+            "pageGotoOptions": "{ timeout: 0, waitUntil: 'networkidle0' }",
